@@ -1,0 +1,281 @@
+<html xml:lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Happy Birthday! SMG</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
+    <link type="text/css" rel="stylesheet" href="./css/default.css">
+    <script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="./css/jscex.min.js"></script>
+    <script type="text/javascript" src="./css/jscex-parser.js"></script>
+    <script type="text/javascript" src="./css/jscex-jit.js"></script>
+    <script type="text/javascript" src="./css/jscex-builderbase.min.js"></script>
+    <script type="text/javascript" src="./css/jscex-async.min.js"></script>
+    <script type="text/javascript" src="./css/jscex-async-powerpack.min.js"></script>
+    <script type="text/javascript" src="./css/functions.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./css/love.js" charset="utf-8"></script>
+    <script src='./js/lottery-wheel.min.js'></script>
+    <!-- 存储服务 -->
+    <script src="https://cdn.jsdelivr.net/npm/leancloud-storage@4.2.0/dist/av-min.js"></script>
+</head>
+
+<body>
+    <div id="music"></div>
+    <div id="main">
+        <div id="wrap">
+            <div id="text">
+                <div id="code">
+                    <span class="say">
+                        <h1>从遇见你那一天</h1>
+                    </span><br>
+                    <span class="say">从遇见你那一天</span><br> <br>
+                    <span class="say">我就知道，抵挡不住你的温柔</span><br><br>
+                    <span class="say">心跳，暴露了我的想念</span><br><br>
+                    <span class="say">呼吸，有时也变得困难</span><br><br>
+                    <span class="say">也许，这就是爱恋</span><br><br>
+                    <span class="say">爱你的容颜，恋你的笑脸</span><br><br>
+                    <span class="say">从遇见你那一天</span><br><br>
+                    <span class="say">我就知道</span><br><br>
+                    <span class="say">
+                        <h1>祝宝儿生日快乐!</h1>
+                    </span>
+                </div>
+            </div>
+            <canvas id="canvas" width="1100" height="680"></canvas>
+        </div>
+
+    </div>
+    <svg id="wheel"></svg>
+    <button id="start_btn">点我有惊喜嘻嘻</button>
+    <script>
+        (function () {
+
+            AV.init({
+                appId: "wNILGCykdB6i7Vq8W874rnfT-gzGzoHsz",
+                appKey: "Pd9XOnJ05zYlWXogeJEnBLIu",
+                serverURLs: "https://wnilgcyk.lc-cn-n1-shared.com"
+            });
+            var query = new AV.Query('song2020');
+
+
+            const ap = new APlayer({
+                container: document.getElementById('music'),
+                mini: true,
+                preload: 'auto',
+                audio:
+                {
+                    name: 'cool again',
+                    artist: 'han',
+                    url: './music/cool_again.mp3',
+                    cover: './imgs/bg_mini.jpg',
+                    theme: '#46718b'
+                }
+            });
+
+            const wheel = new Wheel({
+                el: document.getElementById('wheel'),
+                draw: false,
+                radius: 200,
+                buttonText: 'Go',
+                buttonWidth: 70,
+                fontSize: 20,
+                limit: 9,
+                color: {
+                    button: 'red',
+                },
+                data: [
+                    {
+                        text: '131♥4',
+                        val: '131.4',
+                    },
+                    {
+                        text: '52♥1',
+                        val: '52.1',
+                    },
+                    {
+                        text: '13♥14',
+                        val: '13.14',
+                    },
+                    {
+                        text: '5♥21',
+                        val: '5.21',
+                    },
+                    {
+                        text: 'Kiss Me',
+                        val: 'kiss me',
+                    }],
+                onSuccess(data) {
+                    console.log(data.text);
+                    query.equalTo('name', data.val);
+                    query.find().then(function (data) {
+                        var kouling  = data[0].attributes.words
+                        out_str = "亲爱的宝儿，恭喜你抽中了" + data[0].attributes.name + "元的红包，请到支付宝首页->搜索框->搜索'红包'->口令红包->输入口令:'" + data[0].attributes.words;
+                        out_str += "'。祝亲爱的宝儿生日快乐！"
+                        alert(out_str)
+                        console.log(data[0].attributes.words);
+
+                    });
+
+                },
+                onFail() {
+                    alert('sorry my baby, I have no more money')
+                }
+            });
+
+            var canvas = $('#canvas');
+
+            if (!canvas[0].getContext) {
+                $("#error").show();
+                return false;
+            }
+
+            var width = canvas.width();
+            var height = canvas.height();
+            canvas.attr("width", width);
+            canvas.attr("height", height);
+            var opts = {
+                seed: {
+                    x: width / 2 - 20,
+                    color: "rgb(190, 26, 37)",
+                    scale: 2
+                },
+                branch: [
+                    [535, 680, 570, 250, 500, 200, 30, 100, [
+                        [540, 500, 455, 417, 340, 400, 13, 100, [
+                            [450, 435, 434, 430, 394, 395, 2, 40]
+                        ]],
+                        [550, 445, 600, 356, 680, 345, 12, 100, [
+                            [578, 400, 648, 409, 661, 426, 3, 80]
+                        ]],
+                        [539, 281, 537, 248, 534, 217, 3, 40],
+                        [546, 397, 413, 247, 328, 244, 9, 80, [
+                            [427, 286, 383, 253, 371, 205, 2, 40],
+                            [498, 345, 435, 315, 395, 330, 4, 60]
+                        ]],
+                        [546, 357, 608, 252, 678, 221, 6, 100, [
+                            [590, 293, 646, 277, 648, 271, 2, 80]
+                        ]]
+                    ]]
+                ],
+                bloom: {
+                    num: 700,
+                    width: 1080,
+                    height: 650,
+                },
+                footer: {
+                    width: 1200,
+                    height: 5,
+                    speed: 10,
+                }
+            }
+
+            var tree = new Tree(canvas[0], width, height, opts);
+            var seed = tree.seed;
+            var foot = tree.footer;
+            var hold = 1;
+
+            canvas.click(function (e) {
+                ap.play()
+                var offset = canvas.offset(), x, y;
+                x = e.pageX - offset.left;
+                y = e.pageY - offset.top;
+                if (seed.hover(x, y)) {
+                    hold = 0;
+                    canvas.unbind("click");
+                    canvas.unbind("mousemove");
+                    canvas.removeClass('hand');
+                }
+            }).mousemove(function (e) {
+                var offset = canvas.offset(), x, y;
+                x = e.pageX - offset.left;
+                y = e.pageY - offset.top;
+                canvas.toggleClass('hand', seed.hover(x, y));
+            });
+
+            var seedAnimate = eval(Jscex.compile("async", function () {
+                seed.draw();
+                while (hold) {
+                    $await(Jscex.Async.sleep(10));
+                }
+                while (seed.canScale()) {
+                    seed.scale(0.95);
+                    $await(Jscex.Async.sleep(10));
+                }
+                while (seed.canMove()) {
+                    seed.move(0, 2);
+                    foot.draw();
+                    $await(Jscex.Async.sleep(10));
+                }
+            }));
+
+            var growAnimate = eval(Jscex.compile("async", function () {
+                do {
+                    tree.grow();
+                    $await(Jscex.Async.sleep(10));
+                } while (tree.canGrow());
+            }));
+
+            var flowAnimate = eval(Jscex.compile("async", function () {
+                do {
+                    tree.flower(10);
+                    $await(Jscex.Async.sleep(10));
+                } while (tree.canFlower());
+            }));
+
+            var moveAnimate = eval(Jscex.compile("async", function () {
+                tree.snapshot("p1", 240, 0, 610, 680);
+                while (tree.move("p1", 500, 0)) {
+                    foot.draw();
+                    $await(Jscex.Async.sleep(10));
+                }
+                foot.draw();
+                tree.snapshot("p2", 500, 0, 610, 680);
+
+                canvas.parent().css("background", "url(" + tree.toDataURL('image/png') + ")");
+                canvas.css("background", "lightcyan");
+                $await(Jscex.Async.sleep(300));
+                canvas.css("background", "none");
+            }));
+
+            var jumpAnimate = eval(Jscex.compile("async", function () {
+                var ctx = tree.ctx;
+                while (true) {
+                    tree.ctx.clearRect(0, 0, width, height);
+                    tree.jump();
+                    foot.draw();
+                    $await(Jscex.Async.sleep(25));
+                }
+            }));
+
+            var textAnimate = eval(Jscex.compile("async", function () {
+                $("#code").show().typewriter();
+            }));
+
+            var runAsync = eval(Jscex.compile("async", function () {
+                $await(seedAnimate());
+                $await(growAnimate());
+                $await(flowAnimate());
+                $await(moveAnimate());
+
+                textAnimate().start();
+                $await(jumpAnimate());
+            }));
+
+            runAsync().start();
+
+            $("#start_btn").toggle(function () {
+                console.log('ok')
+                wheel.draw();
+                $('#wheel').show();
+            },
+                function () {
+                    $('#wheel').hide();
+                });
+
+        })();
+    </script>
+
+</body>
+
+</html>
